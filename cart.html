@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - Amazon Clone</title>
+    <meta name="description" content="Your shopping cart on Amazon Clone. View and edit your items before checkout.">
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/responsive.css">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/logos/favicon.ico">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-top">
+            <button class="hamburger-menu">☰</button>
+            <a href="index.html" class="logo">amazon</a>
+
+            <div class="delivery-address">
+                <span class="location-icon">📍</span>
+                <span class="delivery-text">
+                    Deliver to<br>
+                    <strong>Seattle 98101</strong>
+                </span>
+            </div>
+
+            <div class="search-bar">
+                <select class="search-category">
+                    <option value="all">All</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="books">Books</option>
+                    <option value="clothing">Clothing</option>
+                    <option value="home">Home & Kitchen</option>
+                    <option value="sports">Sports</option>
+                    <option value="toys">Toys & Games</option>
+                </select>
+                <input type="text" class="search-input" placeholder="Search Amazon">
+                <button class="search-button">🔍</button>
+            </div>
+
+            <div class="header-links">
+                <a href="#" class="header-link" id="account-link">
+                    <span>Hello, Sign in</span>
+                    <span>Account & Lists</span>
+                </a>
+
+                <a href="#" class="header-link">
+                    <span>Returns</span>
+                    <span>& Orders</span>
+                </a>
+
+                <a href="cart.html" class="cart-link">
+                    <span class="cart-icon">🛒</span>
+                    <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Navigation Bar -->
+        <nav class="nav-bar">
+            <ul class="nav-items">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="products.html" class="nav-link">Products</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Today's Deals</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Customer Service</a></li>
+                <li class="nav-item"><a href="#" class="nav-link">Registry</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="cart-container">
+            <h1 class="cart-title">Shopping Cart</h1>
+
+            <!-- Empty Cart State -->
+            <div id="emptyCart" style="display: none; text-align: center; padding: 60px 20px;">
+                <div style="font-size: 48px; margin-bottom: 20px;">🛒</div>
+                <h2 style="font-size: 24px; margin-bottom: 10px;">Your Amazon Cart is empty</h2>
+                <p style="color: #666; margin-bottom: 20px;">Your shopping cart is empty. Add some products to get started!</p>
+                <a href="products.html" class="cta-button">Continue Shopping</a>
+            </div>
+
+            <!-- Cart Items -->
+            <div id="cartContent" style="display: grid; grid-template-columns: 1fr 300px; gap: 30px;">
+                <!-- Cart Items Section -->
+                <div>
+                    <div class="cart-items" id="cartItems">
+                        <!-- Cart items will be populated by JavaScript -->
+                    </div>
+
+                    <!-- Saved for Later Section -->
+                    <div id="savedForLaterSection" style="display: none;">
+                        <h3 style="margin: 30px 0 15px; font-size: 20px;">Saved for Later</h3>
+                        <div class="cart-items" id="savedForLaterItems">
+                            <!-- Saved items will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cart Summary -->
+                <div>
+                    <div class="cart-summary" id="cartSummary">
+                        <h3 style="margin-bottom: 15px;">Order Summary</h3>
+
+                        <div class="summary-row">
+                            <span>Subtotal:</span>
+                            <span class="summary-subtotal">$0.00</span>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Estimated Tax:</span>
+                            <span class="summary-tax">$0.00</span>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Shipping:</span>
+                            <span class="summary-shipping">$0.00</span>
+                        </div>
+
+                        <div class="summary-row total">
+                            <span>Estimated Total:</span>
+                            <span class="summary-total">$0.00</span>
+                        </div>
+
+                        <div style="margin: 15px 0; padding: 10px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 4px; font-size: 13px;">
+                            <div id="freeShippingMessage"></div>
+                        </div>
+
+                        <button class="checkout-btn" onclick="proceedToCheckout()">
+                            Proceed to Checkout
+                        </button>
+
+                        <div style="margin-top: 15px; text-align: center;">
+                            <a href="products.html" style="color: #0066c0; text-decoration: none; font-size: 14px;">
+                                Continue Shopping
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Recommendations -->
+                    <div id="recommendations" style="margin-top: 30px; display: none;">
+                        <h3 style="margin-bottom: 15px;">Recommended for You</h3>
+                        <div id="recommendationItems">
+                            <!-- Recommendations will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-sections">
+            <div class="footer-section">
+                <h3>Get to Know Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Press Releases</a></li>
+                    <li><a href="#">Amazon Science</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Make Money with Us</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Sell products on Amazon</a></li>
+                    <li><a href="#">Sell on Amazon Business</a></li>
+                    <li><a href="#">Sell apps on Amazon</a></li>
+                    <li><a href="#">Become an Affiliate</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Payment Products</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Amazon Business Card</a></li>
+                    <li><a href="#">Shop with Points</a></li>
+                    <li><a href="#">Reload Your Balance</a></li>
+                    <li><a href="#">Amazon Currency Converter</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Let Us Help You</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Amazon and COVID-19</a></li>
+                    <li><a href="#">Your Account</a></li>
+                    <li><a href="#">Your Orders</a></li>
+                    <li><a href="#">Shipping Rates & Policies</a></li>
+                    <li><a href="#">Returns & Replacements</a></li>
+                    <li><a href="#">Help</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 Amazon Clone. All rights reserved. | This is a demonstration project</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Files -->
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        // Cart page specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCart();
+        });
+
+        // Load cart contents
+        function loadCart() {
+            const summary = shoppingCart.getCartSummary();
+
+            // Show empty cart if no items
+            if (!summary.hasItems) {
+                showEmptyCart();
+                return;
+            }
+
+            // Show cart content
+            showCartContent();
+
+            // Render cart items
+            renderCartItems(summary.items);
+
+            // Render saved for later items
+            if (summary.hasSavedItems) {
+                renderSavedForLaterItems(summary.savedForLater);
+            }
+
+            // Update summary
+            updateCartSummary(summary);
+
+            // Load recommendations
+            loadRecommendations();
+
+            // Update cart count in header
+            updateCartDisplay();
+        }
+
+        // Show empty cart state
+        function showEmptyCart() {
+            document.getElementById('emptyCart').style.display = 'block';
+            document.getElementById('cartContent').style.display = 'none';
+        }
+
+        // Show cart content
+        function showCartContent() {
+            document.getElementById('emptyCart').style.display = 'none';
+            document.getElementById('cartContent').style.display = 'grid';
+        }
+
+        // Render cart items
+        function renderCartItems(items) {
+            const cartItemsContainer = document.getElementById('cartItems');
+
+            if (items.length === 0) {
+                cartItemsContainer.innerHTML = '<p style="padding: 20px; text-align: center;">No items in cart</p>';
+                return;
+            }
+
+            cartItemsContainer.innerHTML = '';
+
+            items.forEach(item => {
+                const cartItemElement = createCartItemElement(item);
+                cartItemsContainer.appendChild(cartItemElement);
+            });
+        }
+
+        // Create cart item element
+        function createCartItemElement(item) {
+            const cartItem = document.createElement('div');
+            cartItem.className = 'cart-item';
+            cartItem.dataset.productId = item.id;
+
+            const primeBadge = item.prime ? '<span class="prime-badge">prime</span>' : '';
+            const originalPriceHtml = item.originalPrice && item.originalPrice > item.price ?
+                `<span style="text-decoration: line-through; color: #999; margin-right: 8px;">$${item.originalPrice.toFixed(2)}</span>` : '';
+
+            cartItem.innerHTML = `
+                <div class="cart-item-image">
+                    <img src="assets/images/products/${item.image}" alt="${item.title}"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                         style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+                    <div style="display: none; width: 100%; height: 100%; background-color: #f0f0f0; border-radius: 4px; align-items: center; justify-content: center; color: #999; font-size: 10px;">
+                        Product Image
+                    </div>
+                </div>
+
+                <div class="cart-item-details">
+                    <a href="product-detail.html?id=${item.id}" class="cart-item-title">${item.title}</a>
+                    <div style="font-size: 12px; color: #666; margin-top: 5px;">${item.category}</div>
+                    <div style="margin-top: 8px;">
+                        ${primeBadge}
+                    </div>
+                </div>
+
+                <div class="cart-item-price">
+                    ${originalPriceHtml}
+                    $${item.price.toFixed(2)}
+                </div>
+
+                <div class="quantity-control">
+                    <button class="quantity-btn quantity-decrease" onclick="updateQuantity('${item.id}', -1)">-</button>
+                    <span class="quantity-display">${item.quantity}</span>
+                    <button class="quantity-btn quantity-increase" onclick="updateQuantity('${item.id}', 1)">+</button>
+                </div>
+
+                <button class="remove-item" onclick="removeItem('${item.id}')">
+                    Delete
+                </button>
+            `;
+
+            return cartItem;
+        }
+
+        // Render saved for later items
+        function renderSavedForLaterItems(items) {
+            if (items.length === 0) return;
+
+            const savedSection = document.getElementById('savedForLaterSection');
+            const savedItemsContainer = document.getElementById('savedForLaterItems');
+
+            savedSection.style.display = 'block';
+            savedItemsContainer.innerHTML = '';
+
+            items.forEach(item => {
+                const savedItemElement = createSavedItemElement(item);
+                savedItemsContainer.appendChild(savedItemElement);
+            });
+        }
+
+        // Create saved item element
+        function createSavedItemElement(item) {
+            const savedItem = document.createElement('div');
+            savedItem.className = 'cart-item';
+            savedItem.dataset.productId = item.id;
+
+            savedItem.innerHTML = `
+                <div class="cart-item-image">
+                    <img src="assets/images/products/${item.image}" alt="${item.title}"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                         style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+                    <div style="display: none; width: 100%; height: 100%; background-color: #f0f0f0; border-radius: 4px; align-items: center; justify-content: center; color: #999; font-size: 10px;">
+                        Product Image
+                    </div>
+                </div>
+
+                <div class="cart-item-details">
+                    <a href="product-detail.html?id=${item.id}" class="cart-item-title">${item.title}</a>
+                    <div style="font-size: 12px; color: #666; margin-top: 5px;">${item.category}</div>
+                </div>
+
+                <div class="cart-item-price">
+                    $${item.price.toFixed(2)}
+                </div>
+
+                <button class="quantity-btn" onclick="moveToCart('${item.id}')" style="margin-right: 10px;">
+                    Move to Cart
+                </button>
+
+                <button class="remove-item" onclick="removeSavedItem('${item.id}')">
+                    Delete
+                </button>
+            `;
+
+            return savedItem;
+        }
+
+        // Update cart summary
+        function updateCartSummary(summary) {
+            // Update prices
+            document.querySelector('.summary-subtotal').textContent = `$${summary.subtotal.toFixed(2)}`;
+            document.querySelector('.summary-tax').textContent = `$${summary.estimatedTax.toFixed(2)}`;
+            document.querySelector('.summary-shipping').textContent = summary.shipping === 0 ? 'FREE' : `$${summary.shipping.toFixed(2)}`;
+            document.querySelector('.summary-total').textContent = `$${summary.estimatedTotal.toFixed(2)}`;
+
+            // Update free shipping message
+            const freeShippingMessage = document.getElementById('freeShippingMessage');
+            if (summary.qualifiesForFreeShipping) {
+                freeShippingMessage.innerHTML = '🎉 Your order qualifies for FREE Shipping!';
+            } else {
+                freeShippingMessage.innerHTML = `Add $${summary.amountForFreeShipping.toFixed(2)} more to qualify for FREE Shipping`;
+            }
+        }
+
+        // Load recommendations
+        function loadRecommendations() {
+            const recommendations = shoppingCart.getRecommendations(productManager, 3);
+            const recommendationsContainer = document.getElementById('recommendations');
+            const recommendationItems = document.getElementById('recommendationItems');
+
+            if (recommendations.length > 0) {
+                recommendationsContainer.style.display = 'block';
+                recommendationItems.innerHTML = '';
+
+                recommendations.forEach(product => {
+                    const recommendationCard = createRecommendationCard(product);
+                    recommendationItems.appendChild(recommendationCard);
+                });
+            }
+        }
+
+        // Create recommendation card
+        function createRecommendationCard(product) {
+            const card = document.createElement('div');
+            card.style.marginBottom = '15px';
+            card.style.padding = '15px';
+            card.style.border = '1px solid #ddd';
+            card.style.borderRadius = '4px';
+            card.style.backgroundColor = '#fff';
+
+            const primeBadge = product.prime ? '<span class="prime-badge" style="font-size: 10px;">prime</span>' : '';
+
+            card.innerHTML = `
+                <div style="display: flex; gap: 10px;">
+                    <div style="width: 60px; height: 60px; background-color: #f0f0f0; border-radius: 4px; flex-shrink: 0;">
+                        <img src="assets/images/products/${product.images[0]}" alt="${product.title}"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                             style="width: 100%; height: 100%; object-fit: cover; border-radius: 4px;">
+                        <div style="display: none; width: 100%; height: 100%; background-color: #f0f0f0; border-radius: 4px; align-items: center; justify-content: center; color: #999; font-size: 8px;">
+                            Image
+                        </div>
+                    </div>
+                    <div style="flex: 1; min-width: 0;">
+                        <a href="product-detail.html?id=${product.id}" style="color: #0F1111; text-decoration: none; font-size: 12px; line-height: 1.3; display: block; margin-bottom: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            ${product.title}
+                        </a>
+                        <div style="color: #B12704; font-weight: 500; font-size: 14px; margin-bottom: 3px;">
+                            $${product.price.toFixed(2)}${primeBadge}
+                        </div>
+                        <button class="add-to-cart-btn" data-product-id="${product.id}" style="font-size: 12px; padding: 4px 8px;">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Update quantity handler
+        function updateQuantity(productId, change) {
+            const cartItem = document.querySelector(`[data-product-id="${productId}"]`);
+            if (!cartItem) return;
+
+            const quantityDisplay = cartItem.querySelector('.quantity-display');
+            const currentQuantity = parseInt(quantityDisplay.textContent) || 0;
+            const newQuantity = Math.max(0, currentQuantity + change);
+
+            try {
+                const result = shoppingCart.updateQuantity(productId, newQuantity);
+                if (result.success) {
+                    quantityDisplay.textContent = newQuantity;
+
+                    if (newQuantity === 0) {
+                        // Remove item from DOM
+                        cartItem.remove();
+                        checkEmptyCart();
+                    }
+
+                    // Update summary
+                    updateCartSummary(shoppingCart.getCartSummary());
+                    updateCartDisplay();
+                }
+            } catch (error) {
+                showCartMessage(error.message, 'error');
+            }
+        }
+
+        // Remove item handler
+        function removeItem(productId) {
+            if (confirm('Remove this item from your cart?')) {
+                try {
+                    const result = shoppingCart.removeFromCart(productId);
+                    if (result.success) {
+                        const cartItem = document.querySelector(`[data-product-id="${productId}"]`);
+                        if (cartItem) {
+                            cartItem.remove();
+                        }
+                        checkEmptyCart();
+                        updateCartSummary(shoppingCart.getCartSummary());
+                        updateCartDisplay();
+                        showCartMessage(result.message, 'success');
+                    }
+                } catch (error) {
+                    showCartMessage(error.message, 'error');
+                }
+            }
+        }
+
+        // Move to cart handler
+        function moveToCart(productId) {
+            try {
+                const result = shoppingCart.moveToCart(productId);
+                if (result.success) {
+                    // Remove from saved items and add to cart
+                    loadCart();
+                    showCartMessage(result.message, 'success');
+                }
+            } catch (error) {
+                showCartMessage(error.message, 'error');
+            }
+        }
+
+        // Remove saved item handler
+        function removeSavedItem(productId) {
+            if (confirm('Remove this saved item?')) {
+                try {
+                    const result = shoppingCart.removeSavedItem(productId);
+                    if (result.success) {
+                        loadCart();
+                        showCartMessage(result.message, 'success');
+                    }
+                } catch (error) {
+                    showCartMessage(error.message, 'error');
+                }
+            }
+        }
+
+        // Check if cart is empty
+        function checkEmptyCart() {
+            const summary = shoppingCart.getCartSummary();
+            if (!summary.hasItems) {
+                showEmptyCart();
+            }
+        }
+
+        // Proceed to checkout
+        function proceedToCheckout() {
+            const summary = shoppingCart.getCartSummary();
+            if (!summary.hasItems) {
+                showCartMessage('Your cart is empty', 'error');
+                return;
+            }
+
+            // In a real application, this would navigate to checkout page
+            showCartMessage('Proceeding to checkout...', 'success');
+            setTimeout(() => {
+                alert('This would normally navigate to the checkout page. This is a demo.');
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
